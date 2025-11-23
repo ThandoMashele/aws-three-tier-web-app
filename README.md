@@ -34,8 +34,8 @@ This is my live progress tracker. I am building this step-by-step.
 | **Phase 1: Network Foundation** | ✅ | `{{21/11/2025}}` | Successfully created VPC with CIDR 10.0.0.0/16, spanning 2 AZs with 2 public and 4 private subnets. All route tables, Internet Gateway, and NAT Gateway configured automatically. |
 | **Phase 2: Security Configuration** | ✅ | `{{21/11/2025}}` | Created three security groups following least privilege: ALB allows HTTP/S from internet, App tier only allows HTTP from ALB, Database only allows DB port from App tier. Defense-in-depth established! |
 | **Phase 3: Data Tier Setup** | ✅ | 21/11/2025 | Launched RDS MySQL/PostgreSQL instance in private subnets with no public access. Database security group properly configured to only allow connections from application tier. |
-| **Phase 4: Application Tier Setup** | 🔄 | | *Preparing to launch EC2 instances in private subnets...* |
-| **Phase 5: Presentation Tier Setup** | ❌ | | |
+| **Phase 4: Application Tier Setup** | ✅ | 23/11/2025 | First EC2 instance (ip-10-0-130-102) fully operational with Apache + PHP + MySQL connectivity. Database and visitors table created successfully. |
+| **Phase 5: Presentation Tier Setup** | 🔄 | | *Setting up Application Load Balancer to distribute traffic between instances...* |
 | **Phase 6: Automation & Scaling** | ❌ | | |
 | **Phase 7: Final Validation & Cleanup** | ❌ | | |
 
