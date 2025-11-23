@@ -35,8 +35,9 @@ This is my live progress tracker. I am building this step-by-step.
 | **Phase 2: Security Configuration** | ✅ | `{{21/11/2025}}` | Created three security groups following least privilege: ALB allows HTTP/S from internet, App tier only allows HTTP from ALB, Database only allows DB port from App tier. Defense-in-depth established! |
 | **Phase 3: Data Tier Setup** | ✅ | 21/11/2025 | Launched RDS MySQL/PostgreSQL instance in private subnets with no public access. Database security group properly configured to only allow connections from application tier. |
 | **Phase 4: Application Tier Setup** | ✅ | 23/11/2025 | First EC2 instance (ip-10-0-130-102) fully operational with Apache + PHP + MySQL connectivity. Database and visitors table created successfully. |
-| **Phase 5: Presentation Tier Setup** | 🔄 | | *Setting up Application Load Balancer to distribute traffic between instances...* |
-| **Phase 6: Automation & Scaling** | ❌ | | |
+| **Phase 4: Application Tier Setup** | ✅ | 23/11/2025 | Both EC2 instances fully operational! Fixed PHP processing on second instance. Both instances successfully connecting to RDS MySQL database and serving web applications. |
+| **Phase 5: Presentation Tier Setup** | ✅ | 23/11/2025 | Application Load Balancer configured and active. Target group includes both healthy EC2 instances. Three-tier architecture complete! |
+| **Phase 6: Final Validation** | 🔄 | | *Testing Load Balancer and documenting project completion...* |
 | **Phase 7: Final Validation & Cleanup** | ❌ | | |
 
 ---
