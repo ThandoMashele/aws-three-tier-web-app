@@ -37,18 +37,18 @@ This is my live progress tracker. I am building this step-by-step.
 | **Phase 4: Application Tier Setup** | ✅ | 23/11/2025 | First EC2 instance (ip-10-0-130-102) fully operational with Apache + PHP + MySQL connectivity. Database and visitors table created successfully. |
 | **Phase 4: Application Tier Setup** | ✅ | 23/11/2025 | Both EC2 instances fully operational! Fixed PHP processing on second instance. Both instances successfully connecting to RDS MySQL database and serving web applications. |
 | **Phase 5: Presentation Tier Setup** | ✅ | 23/11/2025 | Application Load Balancer configured and active. Target group includes both healthy EC2 instances. Three-tier architecture complete! |
-| **Phase 6: Final Validation** | 🔄 | | *Testing Load Balancer and documenting project completion...* |
-| **Phase 7: Final Validation & Cleanup** | ❌ | | |
+| **Phase 6: Final Validation** | ✅ | 23/11/2025 | **LIVE!** Three-tier application accessible via Load Balancer DNS. Load balancing verified between instances. |
+
 
 ---
 
 ## 🛠️ Technologies & AWS Services Used
 
 - **Compute:** Amazon EC2, Auto Scaling
-- **Networking:** Amazon VPC, Elastic Load Balancing (ALB), Internet Gateway, NAT Gateway
-- **Database:** Amazon RDS (PostgreSQL/MySQL)
+- **Networking:** Amazon VPC, Application Load Balancer, Internet Gateway, NAT Gateway
+- **Database:** Amazon RDS (MySQL)
 - **Security:** Security Groups, IAM Roles
-- **Other:** AWS CloudWatch (for monitoring)
+- **Web Stack:** Apache HTTP Server, PHP, MySQLi
 
 ---
 
@@ -58,15 +58,21 @@ This is my live progress tracker. I am building this step-by-step.
 ├── infrastructure/ # (Future) IaC code (Terraform/CDK/CloudFormation)
 └── application-code/ # (Future) Sample application code for the EC2 instances
 
-
 ---
 
-## 🎯 Next Steps
+## 🎯 Key Skills Demonstrated
 
-My immediate next task is to build the **Network Foundation (Phase 1)** in the AWS Console.
+- Three-tier architecture design and implementation
+- VPC networking with public and private subnets
+- Security group configuration and defense-in-depth
+- Load balancer setup and traffic distribution
+- Database deployment and connectivity
+- Troubleshooting and problem-solving in cloud environments
 
-1.  Create a VPC with a defined CIDR block.
-2.  Create public and private subnets across two Availability Zones.
-3.  Set up an Internet Gateway and Route Tables.
+## 🌟 Lessons Learned
 
-Let's build!
+1. **Regional Consistency**: EC2 instances and RDS must be in the same region for proper VPC networking
+2. **Security Groups**: Critical for controlling traffic flow between tiers
+3. **PHP Configuration**: mod_php vs PHP-FPM differences and troubleshooting
+4. **Load Balancer Health Checks**: Essential for proper traffic distribution
+5. **Persistence Pays Off**: Cloud engineering requires systematic troubleshooting
