@@ -15,82 +15,45 @@ The goal is to demonstrate hands-on skills with core AWS services, networking, a
 
 ```mermaid
 graph TB
-    %% === STYLING FOR DARK BACKGROUND ===
-    classDef internet fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#ffffff
-    classDef presentation fill:#dc2626,stroke:#ef4444,stroke-width:2px,color:#ffffff
-    classDef application fill:#059669,stroke:#10b981,stroke-width:2px,color:#ffffff
-    classDef database fill:#7c3aed,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
-    classDef security fill:#d97706,stroke:#f59e0b,stroke-width:2px,color:#ffffff
-    classDef network fill:#0f766e,stroke:#14b8a6,stroke-width:2px,color:#ffffff
+    %% === HIGH CONTRAST COLORS FOR DARK BACKGROUND ===
+    classDef blue fill:#1e40af,stroke:#3b82f6,color:#ffffff
+    classDef red fill:#b91c1c,stroke:#dc2626,color:#ffffff  
+    classDef green fill:#047857,stroke:#059669,color:#ffffff
+    classDef purple fill:#7e22ce,stroke:#9333ea,color:#ffffff
+    classDef orange fill:#c2410c,stroke:#ea580c,color:#ffffff
 
-    %% === INTERNET LAYER ===
-    INTERNET[🌐 Internet Users<br/>HTTP/HTTPS Traffic]
+    %% === ARCHITECTURE COMPONENTS ===
+    USERS[🌐 Internet Users]
     
-    %% === PRESENTATION TIER ===
-    subgraph PRESENTATION["🎯 Presentation Tier"]
-        ALB[Application Load Balancer<br/>🛡️ Public Subnets<br/>📡 three-tier-app-lb]
-    end
+    ALB[Application Load Balancer<br/>Presentation Tier]
     
-    %% === APPLICATION TIER ===
-    subgraph APPLICATION["⚙️ Application Tier"]
-        subgraph APP_SUBNETS["🔒 Private Subnets"]
-            EC2_A[EC2 Instance #1<br/>🖥️ Apache + PHP<br/>📍 Availability Zone A]
-            EC2_B[EC2 Instance #2<br/>🖥️ Apache + PHP<br/>📍 Availability Zone B]
-        end
-    end
+    EC2_A[EC2 Instance #1<br/>Apache + PHP]
+    EC2_B[EC2 Instance #2<br/>Apache + PHP]
     
-    %% === DATA TIER ===
-    subgraph DATA["💾 Data Tier"]
-        RDS[(RDS MySQL Database<br/>🔄 Multi-AZ Deployment<br/>🔐 three-tier-db)]
-    end
+    RDS[(RDS MySQL<br/>Data Tier)]
     
-    %% === SECURITY LAYER ===
-    subgraph SECURITY["🛡️ Security Groups"]
-        SG_ALB[ALB Security Group<br/>✅ HTTP/HTTPS: 0.0.0.0/0]
-        SG_APP[App Security Group<br/>✅ HTTP: ALB Only]
-        SG_DB[DB Security Group<br/>✅ MySQL: App Only]
-    end
-    
-    %% === NETWORK LAYER ===
-    subgraph NETWORK["🌐 Network Infrastructure"]
-        VPC[AWS VPC<br/>🔧 10.0.0.0/16]
-        NAT[NAT Gateway<br/>📤 Outbound Internet]
-    end
-    
+    SG_ALB[🛡️ ALB Security Group]
+    SG_APP[🛡️ App Security Group] 
+    SG_DB[🛡️ DB Security Group]
+
     %% === CONNECTIONS ===
-    INTERNET --> ALB
+    USERS --> ALB
     ALB --> EC2_A
     ALB --> EC2_B
     EC2_A --> RDS
     EC2_B --> RDS
     
-    %% === SECURITY ASSOCIATIONS ===
     ALB -.-> SG_ALB
     EC2_A -.-> SG_APP
     EC2_B -.-> SG_APP
     RDS -.-> SG_DB
-    
-    %% === NETWORK ASSOCIATIONS ===
-    ALB -.-> VPC
-    EC2_A -.-> VPC
-    EC2_B -.-> VPC
-    RDS -.-> VPC
-    NAT -.-> VPC
 
     %% === APPLY STYLES ===
-    class INTERNET internet
-    class ALB presentation
-    class EC2_A,EC2_B application
-    class RDS database
-    class SG_ALB,SG_APP,SG_DB security
-    class VPC,NAT network
-
-    %% === STYLING FOR SUBGRAPH LABELS ===
-    linkStyle 10 stroke:#3b82f6,stroke-width:2px,fill:none
-    linkStyle 11 stroke:#10b981,stroke-width:2px,fill:none
-    linkStyle 12 stroke:#8b5cf6,stroke-width:2px,fill:none
-    linkStyle 13 stroke:#f59e0b,stroke-width:2px,fill:none
-    linkStyle 14 stroke:#14b8a6,stroke-width:2px,fill:none
+    class USERS blue
+    class ALB red
+    class EC2_A,EC2_B green
+    class RDS purple
+    class SG_ALB,SG_APP,SG_DB orange
 ```
 
 The application consists of three distinct layers:
