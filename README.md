@@ -13,7 +13,54 @@ The goal is to demonstrate hands-on skills with core AWS services, networking, a
 
 ## 🏗️ Architecture
 
-*(We will add the architecture diagram here later. You can create one using tools like draw.io or Lucidchart and upload it to the repo.)*
+```mermaid
+graph TB
+    subgraph "🌐 Internet"
+        Users[Internet Users]
+    end
+    
+    subgraph "Presentation Tier"
+        ALB[Application Load Balancer<br/>three-tier-app-lb]
+    end
+    
+    subgraph "Application Tier"
+        subgraph "Private Subnets"
+            EC21[EC2 Instance<br/>Apache + PHP<br/>AZ 1]
+            EC22[EC2 Instance<br/>Apache + PHP<br/>AZ 2]
+        end
+    end
+    
+    subgraph "Data Tier"
+        RDS[(RDS MySQL<br/>Multi-AZ<br/>three-tier-db)]
+    end
+    
+    subgraph "Network Security"
+        SG_ALB[ALB Security Group<br/>HTTP/HTTPS from Internet]
+        SG_APP[App Security Group<br/>HTTP from ALB only]
+        SG_DB[DB Security Group<br/>MySQL from App only]
+    end
+    
+    Users --> ALB
+    ALB --> EC21
+    ALB --> EC22
+    EC21 --> RDS
+    EC22 --> RDS
+    
+    ALB -.-> SG_ALB
+    EC21 -.-> SG_APP
+    EC22 -.-> SG_APP
+    RDS -.-> SG_DB
+    
+    classDef presentation fill:#e1f5fe
+    classDef application fill:#f3e5f5
+    classDef data fill:#e8f5e8
+    classDef security fill:#fff3e0
+    
+    class ALB,Users presentation
+    class EC21,EC22 application
+    class RDS data
+    class SG_ALB,SG_APP,SG_DB security
+```
 
 The application consists of three distinct layers:
 - **Presentation Tier:** Public-facing Application Load Balancer (ALB) and web servers.
