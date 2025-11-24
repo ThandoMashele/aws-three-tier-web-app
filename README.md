@@ -15,51 +15,82 @@ The goal is to demonstrate hands-on skills with core AWS services, networking, a
 
 ```mermaid
 graph TB
-    subgraph "🌐 Internet"
-        Users[Internet Users]
+    %% === STYLING FOR DARK BACKGROUND ===
+    classDef internet fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#ffffff
+    classDef presentation fill:#dc2626,stroke:#ef4444,stroke-width:2px,color:#ffffff
+    classDef application fill:#059669,stroke:#10b981,stroke-width:2px,color:#ffffff
+    classDef database fill:#7c3aed,stroke:#8b5cf6,stroke-width:2px,color:#ffffff
+    classDef security fill:#d97706,stroke:#f59e0b,stroke-width:2px,color:#ffffff
+    classDef network fill:#0f766e,stroke:#14b8a6,stroke-width:2px,color:#ffffff
+
+    %% === INTERNET LAYER ===
+    INTERNET[🌐 Internet Users<br/>HTTP/HTTPS Traffic]
+    
+    %% === PRESENTATION TIER ===
+    subgraph PRESENTATION["🎯 Presentation Tier"]
+        ALB[Application Load Balancer<br/>🛡️ Public Subnets<br/>📡 three-tier-app-lb]
     end
     
-    subgraph "Presentation Tier"
-        ALB[Application Load Balancer<br/>three-tier-app-lb]
-    end
-    
-    subgraph "Application Tier"
-        subgraph "Private Subnets"
-            EC21[EC2 Instance<br/>Apache + PHP<br/>AZ 1]
-            EC22[EC2 Instance<br/>Apache + PHP<br/>AZ 2]
+    %% === APPLICATION TIER ===
+    subgraph APPLICATION["⚙️ Application Tier"]
+        subgraph APP_SUBNETS["🔒 Private Subnets"]
+            EC2_A[EC2 Instance #1<br/>🖥️ Apache + PHP<br/>📍 Availability Zone A]
+            EC2_B[EC2 Instance #2<br/>🖥️ Apache + PHP<br/>📍 Availability Zone B]
         end
     end
     
-    subgraph "Data Tier"
-        RDS[(RDS MySQL<br/>Multi-AZ<br/>three-tier-db)]
+    %% === DATA TIER ===
+    subgraph DATA["💾 Data Tier"]
+        RDS[(RDS MySQL Database<br/>🔄 Multi-AZ Deployment<br/>🔐 three-tier-db)]
     end
     
-    subgraph "Network Security"
-        SG_ALB[ALB Security Group<br/>HTTP/HTTPS from Internet]
-        SG_APP[App Security Group<br/>HTTP from ALB only]
-        SG_DB[DB Security Group<br/>MySQL from App only]
+    %% === SECURITY LAYER ===
+    subgraph SECURITY["🛡️ Security Groups"]
+        SG_ALB[ALB Security Group<br/>✅ HTTP/HTTPS: 0.0.0.0/0]
+        SG_APP[App Security Group<br/>✅ HTTP: ALB Only]
+        SG_DB[DB Security Group<br/>✅ MySQL: App Only]
     end
     
-    Users --> ALB
-    ALB --> EC21
-    ALB --> EC22
-    EC21 --> RDS
-    EC22 --> RDS
+    %% === NETWORK LAYER ===
+    subgraph NETWORK["🌐 Network Infrastructure"]
+        VPC[AWS VPC<br/>🔧 10.0.0.0/16]
+        NAT[NAT Gateway<br/>📤 Outbound Internet]
+    end
     
+    %% === CONNECTIONS ===
+    INTERNET --> ALB
+    ALB --> EC2_A
+    ALB --> EC2_B
+    EC2_A --> RDS
+    EC2_B --> RDS
+    
+    %% === SECURITY ASSOCIATIONS ===
     ALB -.-> SG_ALB
-    EC21 -.-> SG_APP
-    EC22 -.-> SG_APP
+    EC2_A -.-> SG_APP
+    EC2_B -.-> SG_APP
     RDS -.-> SG_DB
     
-    classDef presentation fill:#e1f5fe
-    classDef application fill:#f3e5f5
-    classDef data fill:#e8f5e8
-    classDef security fill:#fff3e0
-    
-    class ALB,Users presentation
-    class EC21,EC22 application
-    class RDS data
+    %% === NETWORK ASSOCIATIONS ===
+    ALB -.-> VPC
+    EC2_A -.-> VPC
+    EC2_B -.-> VPC
+    RDS -.-> VPC
+    NAT -.-> VPC
+
+    %% === APPLY STYLES ===
+    class INTERNET internet
+    class ALB presentation
+    class EC2_A,EC2_B application
+    class RDS database
     class SG_ALB,SG_APP,SG_DB security
+    class VPC,NAT network
+
+    %% === STYLING FOR SUBGRAPH LABELS ===
+    linkStyle 10 stroke:#3b82f6,stroke-width:2px,fill:none
+    linkStyle 11 stroke:#10b981,stroke-width:2px,fill:none
+    linkStyle 12 stroke:#8b5cf6,stroke-width:2px,fill:none
+    linkStyle 13 stroke:#f59e0b,stroke-width:2px,fill:none
+    linkStyle 14 stroke:#14b8a6,stroke-width:2px,fill:none
 ```
 
 The application consists of three distinct layers:
